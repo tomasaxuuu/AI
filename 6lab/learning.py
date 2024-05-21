@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+from keras.src.layers import Dropout
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
@@ -22,10 +23,10 @@ model = Sequential([
     MaxPooling2D((2, 2)),
     Flatten(),
     Dense(64, activation='relu'),
+    Dropout(0.8),
     Dense(10, activation='softmax')
 ])
 
-# Компиляция модели
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 # Обучение модели

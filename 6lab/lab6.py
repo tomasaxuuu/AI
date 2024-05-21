@@ -16,12 +16,9 @@ def predict_image(model, image_path):
         print(f"Error: Unable to load image at {image_path}")
         return None
     img = cv2.resize(img, (32, 32))
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # Конвертация изображения в цветовое пространство RGB
     img = img.reshape(1, 32, 32, 3).astype('float32') / 255
 
-    # Визуализация изображения
-    plt.imshow(img[0])
-    plt.title("Input Image")
-    plt.show()
 
     # Предсказание
     prediction = model.predict(img)
@@ -47,7 +44,7 @@ def main():
     print(f'Accuracy: {accuracy * 100:.2f}%')
 
     # Предсказание на новом изображении
-    image_path = './img/frog.jpg'  # Укажите путь к вашему изображению лягушки
+    image_path = './img/horse.jpg'  # Укажите путь к вашему реальному изображению
     predicted_class = predict_image(model, image_path)
     if predicted_class is not None:
         print(f'Predicted class: {predicted_class}')
