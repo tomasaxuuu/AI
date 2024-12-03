@@ -1,0 +1,41 @@
+FUNCTION_BLOCK fertilizer_rules
+
+VAR_INPUT
+    Soil : REAL;  // Тип почвы
+    Weather : REAL;  // Погодные условия
+    Plant : REAL;  // Тип растения
+END_VAR
+
+VAR_OUTPUT
+    Dosage : REAL;  // Доза удобрения
+END_VAR
+
+FUZZIFY Soil
+    TERM Sandy := (0, 1) (5, 0);
+    TERM Clay := (5, 1) (10, 0);
+END_FUZZIFY
+
+FUZZIFY Weather
+    TERM Rainy := (0, 1) (5, 0);
+    TERM Sunny := (5, 1) (10, 0);
+    TERM Cloudy := (2, 1) (7, 0);
+END_FUZZIFY
+
+FUZZIFY Plant
+    TERM Wheat := (0, 1) (5, 0);
+    TERM Corn := (5, 1) (10, 0);
+END_FUZZIFY
+
+DEFUZZIFY Dosage
+    TERM Low := (0, 1) (50, 0);
+    TERM Medium := (50, 1) (100, 0);
+    TERM High := (100, 1) (150, 0);
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    RULE 1: IF Soil IS Sandy AND Weather IS Rainy THEN Dosage IS Low;
+    RULE 2: IF Soil IS Clay AND Weather IS Sunny THEN Dosage IS High;
+    RULE 3: IF Plant IS Corn AND Weather IS Cloudy THEN Dosage IS Medium;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
